@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { Colors } from "../../constants/colors";
 import { useState } from "react";
+import { ImagePicker } from "./ImagePicker";
 
 export function PlaceForm() {
   const theme = useColorScheme();
@@ -26,14 +27,14 @@ export function PlaceForm() {
           style={[
             styles.input,
             {
-              borderBottomColor: colors.primary700,
-              backgroundColor: colors.primary100,
+              backgroundColor: colors.primary200,
             },
           ]}
           onChangeText={handleChangeTitle}
           value={enteredTitle}
         />
       </View>
+      <ImagePicker />
     </ScrollView>
   );
 }
@@ -44,15 +45,15 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   label: {
-    fontWeight: "bold",
+    fontWeight: "500",
     marginBottom: 4,
+    fontSize: 18,
   },
   input: {
     marginVertical: 8,
-    paddingHorizontal: 4,
-    paddingVertical: 8,
+    padding: 8,
     fontSize: 16,
-    borderBottomWidth: 2,
+    height: 50,
     borderRadius: 10,
   },
 });
