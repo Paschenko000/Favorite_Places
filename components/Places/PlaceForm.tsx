@@ -9,6 +9,7 @@ import {
 import { Colors } from "../../constants/colors";
 import { useState } from "react";
 import { ImagePicker } from "./ImagePicker";
+import { LocationPicker } from "./LocationPicker";
 
 export function PlaceForm() {
   const theme = useColorScheme();
@@ -20,21 +21,26 @@ export function PlaceForm() {
   }
 
   return (
-    <ScrollView style={styles.form}>
-      <View>
-        <Text style={[styles.label, { color: colors.primary500 }]}>Title</Text>
-        <TextInput
-          style={[
-            styles.input,
-            {
-              backgroundColor: colors.primary200,
-            },
-          ]}
-          onChangeText={handleChangeTitle}
-          value={enteredTitle}
-        />
+    <ScrollView>
+      <View style={styles.form}>
+        <View>
+          <Text style={[styles.label, { color: colors.primary500 }]}>
+            Title
+          </Text>
+          <TextInput
+            style={[
+              styles.input,
+              {
+                backgroundColor: colors.primary200,
+              },
+            ]}
+            onChangeText={handleChangeTitle}
+            value={enteredTitle}
+          />
+        </View>
+        <ImagePicker />
+        <LocationPicker />
       </View>
-      <ImagePicker />
     </ScrollView>
   );
 }
@@ -42,7 +48,8 @@ export function PlaceForm() {
 const styles = StyleSheet.create({
   form: {
     flex: 1,
-    padding: 24,
+    padding: 15,
+    gap: 20,
   },
   label: {
     fontWeight: "500",
@@ -50,7 +57,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   input: {
-    marginVertical: 8,
+    marginBottom: 15,
     padding: 8,
     fontSize: 16,
     height: 50,
