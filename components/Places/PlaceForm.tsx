@@ -10,6 +10,7 @@ import { Colors } from "../../constants/colors";
 import { useState } from "react";
 import { ImagePicker } from "./ImagePicker";
 import { LocationPicker } from "./LocationPicker";
+import { Button } from "../../ui/Button";
 
 export function PlaceForm() {
   const theme = useColorScheme();
@@ -19,6 +20,8 @@ export function PlaceForm() {
   function handleChangeTitle(enteredText) {
     setEnteredTitle(enteredText);
   }
+
+  function handleSubmit() {}
 
   return (
     <ScrollView>
@@ -40,6 +43,7 @@ export function PlaceForm() {
         </View>
         <ImagePicker />
         <LocationPicker />
+        <Button onPress={handleSubmit}>Submit</Button>
       </View>
     </ScrollView>
   );
@@ -57,7 +61,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   input: {
-    marginBottom: 15,
     padding: 8,
     fontSize: 16,
     height: 50,
