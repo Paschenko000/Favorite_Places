@@ -6,14 +6,14 @@ import {
 } from "expo-location";
 import { PermissionStatus } from "expo-image-picker";
 import { useEffect, useState } from "react";
-import { getMapPreview } from "../../util/location";
+import { getAddress, getMapPreview } from "../../util/location";
 import {
   useIsFocused,
   useNavigation,
   useRoute,
 } from "@react-navigation/native";
 import { ImagePreview } from "../../ui/ImagePreview";
-export function LocationPicker() {
+export function LocationPicker({ onLocationPicked }: (location) => void) {
   const navigation = useNavigation();
   const route = useRoute();
   const isFocused = useIsFocused();
@@ -28,6 +28,19 @@ export function LocationPicker() {
       setPickedLocation(mapPickedLocation);
     }
   }, [route, isFocused]);
+
+  useEffect(() => {
+    async function handleLocation() {
+      if (pickedLocation) {
+        const address = await getAddress(
+          pickedLocation.lat,
+          pickedLocation.lng,
+        );
+        onLocationPicked({ ...pickedLocation, address });
+      }
+    }
+    handleLocation();
+  }, [pickedLocation, onLocationPicked]);
 
   async function verifyPermissions() {
     if (locationPermissionInfo?.status === PermissionStatus.UNDETERMINED) {
@@ -52,7 +65,7 @@ export function LocationPicker() {
     }
 
     const location = await getCurrentPositionAsync();
-    console.log(location.coords, "location coords");
+
     setPickedLocation({
       lat: location.coords.latitude,
       lng: location.coords.longitude,
@@ -89,15 +102,10 @@ const styles = StyleSheet.create({
   container: {
     gap: 10,
   },
-  mapPreview: {
-    width: "100%",
-    height: 200,
-    objectFit: "cover",
-    borderRadius: 10,
-  },
   actions: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
+    gap: 20,
   },
 });
