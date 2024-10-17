@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { ActivityIndicator, Alert, StyleSheet, View } from "react-native";
 import { OutlinedButton } from "../../ui/OutlinedButton";
 import {
   getCurrentPositionAsync,
@@ -13,9 +13,11 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { ImagePreview } from "../../ui/ImagePreview";
+import { LoadingOverlay } from "../../ui/LoadingOverlay";
 export function LocationPicker({ onLocationPicked }: (location) => void) {
   const navigation = useNavigation();
   const route = useRoute();
+  const [isLoading, setIsLoading] = useState(false);
   const isFocused = useIsFocused();
 
   const [pickedLocation, setPickedLocation] = useState();
@@ -39,7 +41,9 @@ export function LocationPicker({ onLocationPicked }: (location) => void) {
         onLocationPicked({ ...pickedLocation, address });
       }
     }
+
     handleLocation();
+    setIsLoading(false);
   }, [pickedLocation, onLocationPicked]);
 
   async function verifyPermissions() {
@@ -63,7 +67,7 @@ export function LocationPicker({ onLocationPicked }: (location) => void) {
     if (!hasPermission) {
       return;
     }
-
+    setIsLoading(true);
     const location = await getCurrentPositionAsync();
 
     setPickedLocation({
@@ -85,6 +89,8 @@ export function LocationPicker({ onLocationPicked }: (location) => void) {
           getMapPreview(pickedLocation.lat, pickedLocation.lng)
         }
       />
+
+      {isLoading && <LoadingOverlay message="Loading your location" />}
 
       <View style={styles.actions}>
         <OutlinedButton icon="location" onPress={handleGetLocation}>

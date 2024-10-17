@@ -21,6 +21,7 @@ export function PlacesList({ places }: PlacesListProps) {
   }
   return (
     <FlatList
+      style={styles.container}
       data={places}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <PlaceItem place={item} onSelect={() => {}} />}
@@ -36,5 +37,8 @@ const styles = StyleSheet.create({
   },
   fallbackText: {
     fontSize: 16,
+  },
+  container: {
+    padding: 15,
   },
 });
