@@ -7,12 +7,30 @@ import { IconButton } from "./ui/IconButton";
 import { useColorScheme } from "react-native";
 import { Colors } from "./constants/colors";
 import { Map } from "./screens/Map";
+import { useEffect, useState } from "react";
+import { init } from "./util/database";
+import { LoadingOverlay } from "./ui/LoadingOverlay";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   const theme = useColorScheme();
   const colors = theme === "dark" ? Colors.dark : Colors.light;
+  const [dbInitialized, setDbInitialized] = useState(false);
+
+  useEffect(() => {
+    init()
+      .then(() => {
+        setDbInitialized(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if (!dbInitialized) {
+    return <LoadingOverlay message="Loading" />;
+  }
 
   return (
     <>

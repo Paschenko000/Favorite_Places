@@ -1,8 +1,10 @@
 import { PlaceForm } from "../components/Places/PlaceForm";
 import { IPlace } from "../models/place.model";
+import { insertPlace } from "../util/database";
 
 export function AddPlace({ navigation }) {
-  function handleCreatePlace(placeData: IPlace) {
+  async function handleCreatePlace(placeData: IPlace) {
+    await insertPlace(placeData);
     navigation.navigate("AllPlaces", {
       place: placeData,
     });
