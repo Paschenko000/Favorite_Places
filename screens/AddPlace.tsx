@@ -1,13 +1,14 @@
 import { PlaceForm } from "../components/Places/PlaceForm";
 import { IPlace } from "../models/place.model";
-import { insertPlace } from "../util/database";
+import { useContext } from "react";
+import { PlacesContext } from "../store/places_context";
 
 export function AddPlace({ navigation }) {
-  async function handleCreatePlace(placeData: IPlace) {
-    await insertPlace(placeData);
-    navigation.navigate("AllPlaces", {
-      place: placeData,
-    });
+  const placesCtx = useContext(PlacesContext);
+  function handleCreatePlace(placeData: IPlace) {
+    placesCtx.addPlace({ ...placeData });
+
+    navigation.navigate("AllPlaces");
   }
 
   return <PlaceForm onSubmit={handleCreatePlace} />;
